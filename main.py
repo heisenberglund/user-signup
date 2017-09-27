@@ -22,7 +22,22 @@ def index():
     password_err = ''
     passv_err = ''
     email_err = ''
-    
+
+    if len name <3 or len name >15:
+        return 'Your user name does not fit in parameters'
+        name = ''
+
+    if len password < 3 or len password > 15:
+        return 'Your password does not fit the parameters'
+        password = ''
+
+    if len passv <3 or len passv > 15:
+        return 'Your verification does not fit the parameters'
+        passv = ''
+
+    if passv != password:
+        return 'Your user and password do not match'
+
 
 @app.route('/')
 def redir():
