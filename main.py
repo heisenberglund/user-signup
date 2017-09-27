@@ -14,7 +14,7 @@ app.config['DEBUG'] = True
 def index():
     template = jinja_env.get_template('home.html')
     return template.render
-    name = request.home['name']
+    user_name = request.home['name']
     password = request.home['password']
     passv = request.home['passv']
     email = request.home['email']
@@ -23,20 +23,23 @@ def index():
     passv_err = ''
     email_err = ''
 
-    if len name <3 or len name >15:
+    if len user_name < 3 or len user_name > 15:
         return 'Your user name does not fit in parameters'
-        name = ''
+        user_name = ''
 
-    if len password < 3 or len password > 15:
+    elif len password < 3 or len password > 15:
         return 'Your password does not fit the parameters'
         password = ''
 
-    if len passv <3 or len passv > 15:
+    elif len passv < 3 or len passv > 15:
         return 'Your verification does not fit the parameters'
         passv = ''
 
-    if passv != password:
+    elif passv != password:
         return 'Your user and password do not match'
+
+    else:
+        return 'Welcome to the website' + user_name
 
 
 @app.route('/')
