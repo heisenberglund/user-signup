@@ -1,5 +1,4 @@
 from flask import Flask, request, render_template, redirect
-import cgi
 import os
 import jinja2
 
@@ -8,10 +7,22 @@ jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir), a
 
 
 
-app =  Flask(__name__)
+app = Flask(__name__)
 app.config['DEBUG'] = True
 
-@app.route('/signup')
+@app.route('/signup', methods=['POST'])
+def index():
+    template = jinja_env.get_template('home.html')
+    return template.render
+    name = request.home['name']
+    password = request.home['password']
+    passv = request.home['passv']
+    email = request.home['email']
+    name_err = ''
+    password_err = ''
+    passv_err = ''
+    email_err = ''
+    
 
 @app.route('/')
 def redir():
