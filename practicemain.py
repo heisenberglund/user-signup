@@ -32,8 +32,8 @@ form = """
 """
 
 @app.route("/")
-def index():
-    return form.format('')
+def display_form():
+    return display_form.format('')
 
 @app.route("/", methods=['POST'])
 def user_signup():
@@ -46,15 +46,15 @@ def user_signup():
     passv_err = ''
     email_err = ''
 
-    if len(user) > 15 or len(user) < 3:
+    if len(user) > 20 or len(user) < 3:
         return 'Your user name does not fit the parameters'
         user = ''
     
-    if len(password) > 15 or len(password) < 3:
+    if len(password) > 20 or len(password) < 3:
         return 'Your password does not fit the parameters'
         password = ''
 
-    if len(passv) > 15 or len(passv) < 3:
+    if len(passv) > 20 or len(passv) < 3:
         return 'Your verification does not fit the parameters'
         passv = ''
     if password != passv:
