@@ -33,7 +33,7 @@ form = """
 
 @app.route("/")
 def display_form():
-    return display_form.format('')
+    return form.format(user='', password = '', vpass = '', email = '')
 
 @app.route("/", methods=['POST'])
 def user_signup():
