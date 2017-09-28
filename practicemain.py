@@ -95,9 +95,9 @@ def user_signup():
     if password != vpass:
         vpass_err = 'Your password and verification do not match'
         vpass = ''
-    #else:
-        #return redirect('/completed-signup'.format)
-    
+    if not name_err and not password_err and not vpass_err and not email_err:
+        user = user
+        return redirect('/completed-signup?user={0}'.format(user))
     else:
         return form.format(user=user, name_err=name_err,
         password=password, password_err=password_err,
@@ -106,8 +106,8 @@ def user_signup():
 
 @app.route('/completed-signup')
 def completed_signup():
-    name = request.args.get('user')
-    return '<h1>Welcome to the site {0}</h1>'.format(name)
+    user = request.args.get('user')
+    return '<h1>Welcome to the site {0}</h1>'.format(user)
 
 
 app.run()
