@@ -9,6 +9,7 @@ form = """
 <!doctype html>
 <html>
     <body>
+    <form>
         <label>User Name:
             <input type="text" name="user-name" />
         </label>
@@ -24,6 +25,7 @@ form = """
         <label>Email:
             <input type="email name="email />
         </label>
+    </form>
     </body>
 </html>
 """
@@ -31,3 +33,5 @@ form = """
 @app.route("/")
 def index():
     return form
+
+app.run()
