@@ -14,13 +14,19 @@ form = """
             .error {{
                 color: red;
             }}
+            .table{{
+                font-family: helvetica;
+            }}
+            #headline{{font-family: helvetica; 
+            color: green
+            }}
         </style>
     </head>
 
     <body>
-        <h1>User Signup</h1>
+        <h1 id="headline">User Signup</h1>
     <form method='POST'>
-        <table>
+        <table class="table">
             <tbody>
                 <tr>
                     <td>
@@ -86,9 +92,9 @@ def user_signup():
         email_err = 'Your e-mail is not valid'
         email = ''
 
-    if '.' not in email:
-        email_err = 'Your e-mail is not valid'
-        email = ''
+        if '.' not in email:
+            email_err = 'Your e-mail is not valid'
+            email = ''
 
     if len(user) > 20 or len(user) < 3:
         name_err = 'Your user name does not fit the parameters'
