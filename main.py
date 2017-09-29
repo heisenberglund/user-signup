@@ -95,9 +95,9 @@ def user_signup():
             email_err = 'Your e-mail is not valid'
             email = ''
     
-            if '.' not in email:
-                email_err = 'Your e-mail is not valid'
-                email = ''
+        if '.' not in email:
+            email_err = 'Your e-mail is not valid'
+            email = ''
 
 
     if len(user) > 20 or len(user) < 3:
