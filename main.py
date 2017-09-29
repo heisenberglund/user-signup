@@ -87,14 +87,18 @@ def user_signup():
     password_err = ''
     vpass_err = ''
     email_err = ''
-   
-    if '@' not in email:
-        email_err = 'Your e-mail is not valid'
-        email = ''
 
-        if '.' not in email:
+    if email is None:
+        email = email
+
+        if '@' not in email:
             email_err = 'Your e-mail is not valid'
             email = ''
+    
+            if '.' not in email:
+                email_err = 'Your e-mail is not valid'
+                email = ''
+
 
     if len(user) > 20 or len(user) < 3:
         name_err = 'Your user name does not fit the parameters'
