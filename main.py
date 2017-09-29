@@ -1,84 +1,125 @@
-import html
 from flask import Flask, request, redirect
-import os 
-#import cgi
-#import jinja2
-
-#template_dir = os.path.join(os.path.dirname(__file__), 'templates')
-#jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir), autoescape=True)
+import os
+import cgi
+import jinja2
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
 
 form = """
 <!doctype html>
+<html>
+    <head>
+        <style>
+            .error {{
+                color: red;
+            }}
+        </style>
+    </head>
 
-<link rel="stylesheet" type="text/css" href="style.css" />
-    <html>
-        <header>
-            <h1>User Signup</h1>
-        </header>
-        <body>
-            <form action="/signup">
-            <label>Name:</label>
-                <br>
-            <input name="name" type="text" />
-                <br>
-            <label>Password:</label>
-                <br>
-            <input name="password" type="password" />
-                <br>
-            <label>Verify Password:</label>
-                <br>
-            <input name="passv" type="password" />
-                <br>
-            <label>Email:</label>
-                <br>
-            <input name="email" type="email" />
-                <br>
-            <input name="submit" type="submit" value="Sign Up" />
-            </form>
-        </body>
-    </html>
-    """
+    <body>
+        <h1>User Signup</h1>
+    <form method='POST'>
+        <table>
+            <tbody>
+                <tr>
+                    <td>
+                        <label>User Name:</label>
+                    </td>
+                    <td>
+                        <input type="text" value='{user}' name="user-name" />
+                        <span class="error">{name_err}</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>Password:</label>
+                    </td>
+                    <td>
+                        <input type="password" value='{password}' name="password" />
+                        <span class="error">{password_err}</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label> Verify Password:</label>
+                    </td>
+                    <td>
+                        <input type="password" value='{vpass}' name="vpass" />
+                        <span class="error">{vpass_err}</span>
+                        
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>Email:</label>
+                    </td>
+                    <td>
+                        <input type="text" value='{email}' name="email" />
+                        <span class="error">{email_err}</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+            <input type="submit" name="submit" value="Sign Up" />
+    </form>
+    </body>
+</html>
+"""
 
+@app.route("/")
+def display_form():
+    return form.format(user='', name_err='', password = '', password_err='', vpass = '', vpass_err='', email = '', email_err='')
 
-
-
-@app.route('/signup')
-def index():
-    #template = jinja_env.get_template('home.html')
-    #return template.render
-    user_name = request.form['name']
+@app.route("/", methods=['POST'])
+def user_signup():
+    user = request.form['user-name']
     password = request.form['password']
-    passv = request.form['passv']
+    vpass = request.form['vpass']
     email = request.form['email']
     name_err = ''
     password_err = ''
-    passv_err = ''
+    vpass_err = ''
     email_err = ''
+   
+    if '@' not in email:
+        email_err = 'Your e-mail is not valid'
+        email = ''
 
-    #if len(user_name) < 3 or len(user_name) > 15:
-        #return 'Your user name does not fit in parameters'
-        #user_name = ''
+    if '.' not in email:
+        email_err = 'Your e-mail is not valid'
+        email = ''
 
-    #if len(password) < 3 or len(password) > 15:
-        #return 'Your password does not fit the parameters'
-        #password = ''
+    if len(user) > 20 or len(user) < 3:
+        name_err = 'Your user name does not fit the parameters'
+        user = ''
+    
+    if len(password) > 20 or len(password) < 3:
+        password_err =  'Your password does not fit the parameters'
+        password = ''
 
-    #if len(passv) < 3 or len(passv) > 15:
-        #return 'Your verification does not fit the parameters'
-        #passv = ''
+    if len(vpass) > 20 or len(vpass) < 3:
+        vpass_err = 'Your verification does not fit the parameters'
+        vpass = ''
+    
+    if password != vpass:
+        vpass_err = 'Your password and verification do not match'
+        vpass = ''
+    
+    if not name_err and not password_err and not vpass_err and not email_err:
+        user = user
+        return redirect('/completed-signup?user={0}'.format(user))        
 
-    #if passv != password:
-        #return 'Your password and verification do not match'
+    else:
+        return form.format(user=user, name_err=name_err,
+        password=password, password_err=password_err,
+        vpass=vpass, vpass_err=vpass_err, 
+        email=email, email_err=email_err)
 
-    #else:
-        #return 'Welcome to the website' + user_name
+@app.route('/completed-signup')
+def completed_signup():
+    user = request.args.get('user')
+    return '<h1>Welcome to the site {0}</h1>'.format(user)
 
-
-@app.route('/')
-def redir():
-    return redirect('/signup')
 
 app.run()
