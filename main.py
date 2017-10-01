@@ -3,79 +3,19 @@ import os
 import cgi
 import jinja2
 
+template_dir = os.path.join(os.path.dirname(__file__), 'templates')
+jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader (template_dir))
+
+
 app = Flask(__name__)
 app.config['DEBUG'] = True
 
-form = """
-<!doctype html>
-<html>
-    <head>
-        <style>
-            .error {{
-                color: red;
-            }}
-            .table{{
-                font-family: helvetica;
-            }}
-            #headline{{font-family: helvetica; 
-            color: green
-            }}
-        </style>
-    </head>
 
-    <body>
-        <h1 id="headline">User Signup</h1>
-    <form method='POST'>
-        <table class="table">
-            <tbody>
-                <tr>
-                    <td>
-                        <label>User Name:</label>
-                    </td>
-                    <td>
-                        <input type="text" value='{user}' name="user-name" />
-                        <span class="error">{name_err}</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label>Password:</label>
-                    </td>
-                    <td>
-                        <input type="password" value='{password}' name="password" />
-                        <span class="error">{password_err}</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label> Verify Password:</label>
-                    </td>
-                    <td>
-                        <input type="password" value='{vpass}' name="vpass" />
-                        <span class="error">{vpass_err}</span>
-                        
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label>Email:</label>
-                    </td>
-                    <td>
-                        <input type="text" value='{email}' name="email" />
-                        <span class="error">{email_err}</span>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-            <input type="submit" name="submit" value="Sign Up" />
-    </form>
-    </body>
-</html>
-"""
 
 @app.route("/")
 def display_form():
-    return form.format(user='', name_err='', password = '', password_err='', vpass = '', vpass_err='', email = '', email_err='')
+    template = jinja_env.get_template('homepage.html')
+    return template.render(user='', name_err='', password = '', password_err='', vpass = '', vpass_err='', email = '', email_err='')
 
 @app.route("/", methods=['POST'])
 def user_signup():
@@ -87,28 +27,29 @@ def user_signup():
     password_err = ''
     vpass_err = ''
     email_err = ''
+    template = jinja_env.get_template('request.html')
 
     if email is None:
         email = email
 
-        if '@' not in email:
-            email_err = 'Your e-mail is not valid'
-            email = ''
+    if '@' not in email:
+        email_err = 'Your e-mail is not valid'
+        email = ''
     
-        if '.' not in email:
-            email_err = 'Your e-mail is not valid'
-            email = ''
+    if '.' not in email:
+        email_err = 'Your e-mail is not valid'
+        email = ''
 
 
-    if len(user) > 20 or len(user) < 3:
+    if len(user) > 20 or len(user) < 4:
         name_err = 'Your user name does not fit the parameters'
         user = ''
     
-    if len(password) > 20 or len(password) < 3:
+    if len(password) > 20 or len(password) < 4:
         password_err =  'Your password does not fit the parameters'
         password = ''
 
-    if len(vpass) > 20 or len(vpass) < 3:
+    if len(vpass) > 20 or len(vpass) < 4:
         vpass_err = 'Your verification does not fit the parameters'
         vpass = ''
     
