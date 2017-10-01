@@ -21,7 +21,7 @@ def user_signup():
     vpass_err = ''
     email_err = ''
 
-    user = cgi.escape(user)
+    user = escape(user)
     password = escape(password)
     vpass = escape(vpass)
     email = escape(email)
