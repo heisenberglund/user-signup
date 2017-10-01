@@ -10,16 +10,22 @@ form = """
 <html>
     <head>
         <style>
-            .error {{
+            .error {
                 color: red;
-            }}
+            }
+            .table{
+                font-family: helvetica;
+            }
+            #headline{font-family: helvetica; 
+            color: green
+            }
         </style>
     </head>
 
     <body>
-        <h1>User Signup</h1>
+        <h1 id="headline">User Signup</h1>
     <form method='POST'>
-        <table>
+        <table class="table">
             <tbody>
                 <tr>
                     <td>
@@ -54,7 +60,7 @@ form = """
                         <label>Email:</label>
                     </td>
                     <td>
-                        <input type="email" value='{email}' name="email" />
+                        <input type="text" value='{email}' name="email" />
                         <span class="error">{email_err}</span>
                     </td>
                 </tr>
@@ -68,7 +74,8 @@ form = """
 
 @app.route("/")
 def display_form():
-    return form.format(user='', name_err='', password = '', password_err='', vpass = '', vpass_err='', email = '', email_err='')
+    return form.format(user='', name_err='', password = '', password_err='', vpass = '',
+     vpass_err='', email = '', email_err='')
 
 @app.route("/", methods=['POST'])
 def user_signup():
@@ -98,6 +105,18 @@ def user_signup():
     if not name_err and not password_err and not vpass_err and not email_err:
         user = user
         return redirect('/completed-signup?user={0}'.format(user))
+    
+    if email is None:
+        email = email
+
+    if '@' not in email:
+        email_err = 'Your e-mail is not valid'
+        email = ''
+    
+    if '.' not in email:
+        email_err = 'Your e-mail is not valid'
+        email = ''
+    
     else:
         return form.format(user=user, name_err=name_err,
         password=password, password_err=password_err,
