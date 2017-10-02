@@ -2,15 +2,16 @@
 <html>
     <head>
         <style>
-            .error {{
+            .error {
                 color: red;
-            }}
-            .table{{
+            }
+            .table{
                 font-family: helvetica;
-            }}
-            #headline{{font-family: helvetica; 
-            color: green
-            }}
+            }
+            #headline{
+            font-family: helvetica; 
+            color: green;
+            }
         </style>
     </head>
     <body>
@@ -23,8 +24,8 @@
                         <label>User Name:</label>
                     </td>
                     <td>
-                        <input type="text" value='{user}' name="user-name" />
-                        <span class="error">{name_err}</span>
+                        <input type="text" value='{{user}}' name="user-name" />
+                        <span class="error">{{name_err}}</span>
                     </td>
                 </tr>
                 <tr>
@@ -32,8 +33,8 @@
                         <label>Password:</label>
                     </td>
                     <td>
-                        <input type="password" value='{password}' name="password" />
-                        <span class="error">{password_err}</span>
+                        <input type="password" value='{{password}}' name="password" />
+                        <span class="error">{{password_err}}</span>
                     </td>
                 </tr>
                 <tr>
@@ -41,8 +42,8 @@
                         <label> Verify Password:</label>
                     </td>
                     <td>
-                        <input type="password" value='{vpass}' name="vpass" />
-                        <span class="error">{vpass_err}</span>
+                        <input type="password" value='{{vpass}}' name="vpass" />
+                        <span class="error">{{vpass_err}}</span>
                         
                     </td>
                 </tr>
@@ -51,8 +52,8 @@
                         <label>Email:</label>
                     </td>
                     <td>
-                        <input type="text" value='{email}' name="email" />
-                        <span class="error">{email_err}</span>
+                        <input type="text" value='{{email}}' name="email" />
+                        <span class="error">{{email_err}}</span>
                     </td>
                 </tr>
             </tbody>

@@ -1,14 +1,9 @@
 from flask import Flask, request, redirect, render_template
 import os
 from cgi import escape
-import jinja2
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
-
-#@app.route("/")
-#def display_form():
-    #return form.format(user='', name_err='', password = '', password_err='', vpass = '', vpass_err='', email = '', email_err='')
 
 @app.route("/", methods=['POST'])
 def user_signup():
@@ -21,10 +16,6 @@ def user_signup():
     vpass_err = ''
     email_err = ''
 
-    user = escape(user)
-    password = escape(password)
-    vpass = escape(vpass)
-    email = escape(email)
 
     if len(user) > 20 or len(user) < 3:
         name_err = 'Your user name does not fit the parameters'
